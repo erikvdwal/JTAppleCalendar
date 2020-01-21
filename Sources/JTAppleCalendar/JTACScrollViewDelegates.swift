@@ -44,12 +44,12 @@ extension JTACMonthView: UIScrollViewDelegate {
             theCurrentContentOffset = scrollView.contentOffset.x
             theTargetContentOffset = targetContentOffset.pointee.x
             directionVelocity = velocity.x
-            maxContentOffset = scrollView.contentSize.width - scrollView.frame.width
+            maxContentOffset = (scrollView.contentSize.width - scrollView.frame.width) + contentInset.left + contentInset.right
         } else {
             theCurrentContentOffset = scrollView.contentOffset.y
             theTargetContentOffset = targetContentOffset.pointee.y
             directionVelocity = velocity.y
-            maxContentOffset = scrollView.contentSize.height - scrollView.frame.height
+            maxContentOffset = (scrollView.contentSize.height - scrollView.frame.height) + contentInset.top + contentInset.bottom
         }
 
         let gestureTranslation = self.panGestureRecognizer.translation(in: self)
@@ -71,7 +71,7 @@ extension JTACMonthView: UIScrollViewDelegate {
         }
 
         if theCurrentContentOffset >= maxContentOffset { setTargetContentOffset(maxContentOffset) ; return }
-        if theCurrentContentOffset <= 0 { setTargetContentOffset(0); return }
+        if theCurrentContentOffset <= 0 { setTargetContentOffset(theTargetContentOffset); return }
 
         switch scrollingMode {
         case .stopAtEachCalendarFrame:
